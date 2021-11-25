@@ -27,11 +27,17 @@
 // 2. Triple tap dance brackets (,[,{
 // 3. Hold: Raise, lower; Press: Enter, backspace
 // 4. Ctrl and Alt keys moved one key right
-// 5. Hold F for ctrl
+// 5. Multiple mod taps for Ctrl
 
 // TODO:
-// super key -> TG(layer) or TT(layer) for _WM layer
 // more tap dance keys for shifted pairs
+// hyper key for rarely used bindings - create the bindings
+// super key layer -> LM(super) switches to _WM layer -> tap dance/mod tap for shifted keys
+//      - how to handle numbers though? move to layer _LS?
+// ctrl key layer -> LM(ctrl) switches to _VIM layer -> mod tap for shifted keys
+
+// TG(layer) or TT(layer) to handle modes?
+//      - replace left ctrl with TG or use with mod tap?
 
 // Tap Dance
 enum {
@@ -53,20 +59,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* _QW
  * ,-----------------------------------------------------------------------------------.
- * | Esc  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ * |Esc/CL|   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * | Tab  |   A  |   S  |   D  |Ctrl/F|   G  |   H  |Ctrl/J|   K  |   L  |   ;  |  "   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      | Ctrl | Alt  | GUI  |Lower |    Space    |Raise | Left | Down |  Up  |Right |
+ * | Hyper| Ctrl | Alt  | GUI  |Lower |    Space    |Raise |C/Left| Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
 [_QW] = LAYOUT_planck_grid(
-    TD(ESC_CL), KC_Q,    KC_W,    KC_E,    KC_R,         KC_T,   KC_Y,   KC_U,          KC_I,    KC_O,    KC_P,    KC_BSPC,
-    KC_TAB,     KC_A,    KC_S,    KC_D,    CTL_T(KC_F),  KC_G,   KC_H,   KC_J,          KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,         KC_B,   KC_N,   KC_M,          KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-    KC_NO,      KC_LCTL, KC_LALT, KC_LGUI, LT(1,KC_ENT), KC_SPC, KC_SPC, LT(2,KC_BSPC), KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT
+    TD(ESC_CL), KC_Q,    KC_W,    KC_E,    KC_R,         KC_T,   KC_Y,   KC_U,          KC_I,           KC_O,    KC_P,    KC_BSPC,
+    KC_TAB,     KC_A,    KC_S,    KC_D,    CTL_T(KC_F),  KC_G,   KC_H,   CTL_T(KC_J),  KC_K,           KC_L,    KC_SCLN, KC_QUOT,
+    KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,         KC_B,   KC_N,   KC_M,          KC_COMM,        KC_DOT,  KC_SLSH, KC_ENT,
+    HYPR(KC_NO),KC_LCTL, KC_LALT, KC_LGUI, LT(1,KC_ENT), KC_SPC, KC_SPC, LT(2,KC_BSPC), CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 /* _LS
@@ -81,9 +87,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_LS] = LAYOUT_planck_grid(
-    KC_ESC,  KC_F1,    KC_F2,   KC_F3,   KC_F4,   KC_NO,        KC_P0,        KC_P1,   KC_P2, KC_P3, KC_INS,  KC_BSPC,
-    KC_GRV,  KC_F5,    KC_F6,   KC_F7,   KC_F8,   TD(TD_BRC_L), TD(TD_BRC_R), KC_P4,   KC_P5, KC_P6, KC_PGUP, KC_HOME,
-    KC_LSFT, KC_F9,    KC_F10,  KC_F11,  KC_F12,  KC_NO ,       KC_NO,        KC_P7,   KC_P8, KC_P9, KC_PGDN, KC_END,
+    KC_ESC,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_NO,        KC_P0,        KC_P1,   KC_P2, KC_P3, KC_INS,  KC_BSPC,
+    KC_GRV,  KC_F5,   KC_F6,   KC_F7,   KC_F8,   TD(TD_BRC_L), TD(TD_BRC_R), KC_P4,   KC_P5, KC_P6, KC_PGUP, KC_HOME,
+    KC_LSFT, KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_NO ,       KC_NO,        KC_P7,   KC_P8, KC_P9, KC_PGDN, KC_END,
     KC_NO,   KC_LCTL, KC_LALT, KC_LGUI, KC_TRNS, KC_SPC,       KC_SPC,       KC_TRNS, KC_P0, KC_NO, KC_BRID, KC_BRIU
 ),
 
@@ -99,9 +105,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_RS] = LAYOUT_planck_grid(
-    KC_ESC,  KC_EXLM,  KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_CIRC, KC_AMPR, KC_ASTR, KC_NO,   KC_TRNS, KC_BSPC,
-    KC_GRV,  KC_LPRN,  KC_RPRN, KC_PLUS, KC_UNDS, KC_LCBR,       KC_RCBR, KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS,
-    KC_LSFT, KC_LBRC,  KC_RBRC, KC_EQL,  KC_MINS, LSFT(KC_BSLS), KC_BSLS, KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS,
+    KC_ESC,  KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,       KC_CIRC, KC_AMPR, KC_ASTR, KC_NO,   KC_TRNS, KC_BSPC,
+    KC_GRV,  KC_LPRN, KC_RPRN, KC_PLUS, KC_UNDS, KC_LCBR,       KC_RCBR, KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS,
+    KC_LSFT, KC_LBRC, KC_RBRC, KC_EQL,  KC_MINS, LSFT(KC_BSLS), KC_BSLS, KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_TRNS,
     KC_NO,   KC_LCTL, KC_LALT, KC_LGUI, KC_TRNS, KC_SPC,        KC_TRNS, KC_TRNS, KC_MUTE, KC_VOLD, KC_VOLU, KC_MPLY
 ),
 
