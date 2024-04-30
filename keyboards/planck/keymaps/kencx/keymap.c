@@ -46,10 +46,10 @@ enum {
     TD_BRC_R,
 };
 
-void triple_tap_L(qk_tap_dance_state_t *state, void *user_data);
-void triple_tap_R(qk_tap_dance_state_t *state, void *user_data);
+void triple_tap_L(tap_dance_state_t *state, void *user_data);
+void triple_tap_R(tap_dance_state_t *state, void *user_data);
 
-qk_tap_dance_action_t tap_dance_actions[] = {
+tap_dance_action_t tap_dance_actions[] = {
     [ESC_CL] = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS_LOCK),
     [TD_BRC_L] = ACTION_TAP_DANCE_FN(triple_tap_L),
     [TD_BRC_R] = ACTION_TAP_DANCE_FN(triple_tap_R),
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TD(ESC_CL), KC_Q,    KC_W,    KC_E,    KC_R,         KC_T,   KC_Y,   KC_U,          KC_I,           KC_O,    KC_P,    KC_BSPC,
     KC_TAB,     KC_A,    KC_S,    KC_D,    CTL_T(KC_F),  KC_G,   KC_H,   CTL_T(KC_J),  KC_K,           KC_L,    KC_SCLN, KC_QUOT,
     KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,         KC_B,   KC_N,   KC_M,          KC_COMM,        KC_DOT,  KC_SLSH, KC_ENT,
-    HYPR(KC_NO),KC_LCTL, KC_LALT, KC_LGUI, LT(1,KC_ENT), KC_SPC, KC_SPC, LT(2,KC_BSPC), CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT
+    HYPR(KC_NO),KC_LCTL, KC_LALT, KC_LGUI, MO(1), KC_SPC, KC_SPC, MO(2), CTL_T(KC_LEFT), KC_DOWN, KC_UP,   KC_RGHT
 ),
 
 /* _LS
@@ -134,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 // tap dance
 
-void triple_tap_L (qk_tap_dance_state_t *state, void *user_data) {
+void triple_tap_L (tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
         tap_code16(KC_LPRN);
     } else if (state->count == 2) {
@@ -146,7 +146,7 @@ void triple_tap_L (qk_tap_dance_state_t *state, void *user_data) {
     }
 }
 
-void triple_tap_R (qk_tap_dance_state_t *state, void *user_data) {
+void triple_tap_R (tap_dance_state_t *state, void *user_data) {
     if (state->count == 1) {
         tap_code16(KC_RPRN);
     } else if (state->count == 2) {

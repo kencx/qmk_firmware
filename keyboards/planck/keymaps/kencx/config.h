@@ -50,7 +50,5 @@
 
 #define TAPPING_TERM 200
 
-// fix issue of quick typing on mod tap
-#define IGNORE_MOD_TAP_INTERRUPT
 #undef PERMISSIVE_HOLD
 #undef PREVENT_STUCK_MODIFIERS
